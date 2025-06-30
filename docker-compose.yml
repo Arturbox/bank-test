@@ -1,0 +1,52 @@
+networks:
+  bank:
+    driver: ${NETWORKS_DRIVER}
+
+volumes:
+  postgresql:
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./etc/docker/php/Dockerfile
+    container_name: app
+    volumes:
+      - .:/var/www
+    environment:
+      APP_ENV: "${APP_ENV}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    networks:
+      - bank
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - .:/var/www
+      - ./etc/docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - bank
+
+  postgresql:
+    image: postgres:latest
+    container_name: postgresql
+    volumes:
+      - postgresql:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${DB_PORT}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    networks:
+      - bank
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 1s
+      timeout: 5s
+      retries: 5

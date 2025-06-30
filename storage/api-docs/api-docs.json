@@ -1,0 +1,308 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Bank",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "{schema}://{host}/api",
+            "variables": {
+                "schema": {
+                    "enum": [
+                        "http"
+                    ],
+                    "default": "http"
+                },
+                "host": {
+                    "enum": [
+                        "localhost"
+                    ],
+                    "default": "localhost"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/login": {
+            "put": {
+                "description": "Update user",
+                "operationId": "ec11a6f45aac78801c6b402e62dbf545",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update user information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TokenResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "put": {
+                "description": "Update user",
+                "operationId": "02be18ab4cc888713cc37958cfa611ef",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": 1234
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Update user information",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UpdateUserResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/transfer/update": {
+            "post": {
+                "description": "Create transfer",
+                "operationId": "065c2b46a69d3145346e643985d30984",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": 1234
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateTransferRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Create transfer",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransferResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LoginRequest": {
+                "title": "UpdateUserRequest",
+                "description": "Update User Request",
+                "required": [
+                    "email",
+                    "password"
+                ],
+                "properties": {
+                    "email": {
+                        "title": "Email",
+                        "description": "email",
+                        "type": "string",
+                        "example": "aaa@mail.ru"
+                    },
+                    "password": {
+                        "title": "password",
+                        "description": "password",
+                        "type": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserRequest": {
+                "title": "UpdateUserRequest",
+                "description": "Update User Request",
+                "required": [
+                    "name",
+                    "email",
+                    "age"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "email",
+                        "type": "string",
+                        "example": "aaa@mail.ru"
+                    },
+                    "age": {
+                        "title": "Email",
+                        "description": "email",
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "TokenResponse": {
+                "title": "TokenResponse",
+                "description": "Token Response",
+                "properties": {
+                    "token": {
+                        "title": "token",
+                        "description": "token",
+                        "type": "string",
+                        "example": "Hp2GTufHe9xgsOYyWMG3LFX2tzX1mrSBFrISJyCTcd6cf831"
+                    },
+                    "token_type": {
+                        "title": "token_type",
+                        "description": "token type",
+                        "type": "string",
+                        "example": "bearer"
+                    },
+                    "": {
+                        "$ref": "#/components/schemas/UpdateUserResponse"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateUserResponse": {
+                "title": "UpdateUserResponse",
+                "description": "Update User Response",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Name",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "email",
+                        "type": "string",
+                        "example": "aaa@mail.ru"
+                    },
+                    "age": {
+                        "title": "Email",
+                        "description": "email",
+                        "type": "integer",
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "CreateTransferRequest": {
+                "title": "CreateTransferRequest",
+                "description": "Create Transfer Request",
+                "required": [
+                    "from_account_id",
+                    "to_account_id",
+                    "amount"
+                ],
+                "properties": {
+                    "from_account_id": {
+                        "title": "from_account_id",
+                        "description": "from_account_id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "to_account_id": {
+                        "title": "to_account_id",
+                        "description": "to_account_id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "amount": {
+                        "title": "amount",
+                        "description": "amount",
+                        "type": "string",
+                        "example": "1000"
+                    }
+                },
+                "type": "object"
+            },
+            "TransferResponse": {
+                "title": "TransferResponse",
+                "description": "Transfer Response",
+                "properties": {
+                    "from_account_id": {
+                        "title": "from_account_id",
+                        "description": "from_account_id",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "to_account_id": {
+                        "title": "to_account_id",
+                        "description": "to_account_id",
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "amount": {
+                        "title": "amount",
+                        "description": "amount",
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "headers": {
+            "X-User-ID": {
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
